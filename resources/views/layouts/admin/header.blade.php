@@ -4,18 +4,18 @@
             <div class="navbar-brand-box">
                 <a href="/" class="logo logo-dark">
                     <span class="logo-sm">
-                        <img src="/images/clients-2.png" alt="" height="22">
+                        <img src="/images/logo_sidara.png" alt="" height="22">
                     </span>
                     <span class="logo-lg">
-                        <img src="/images/clients-2.png" alt="" height="17">
+                        <img src="/imageslogo_sidara.png" alt="" height="17">
                     </span>
                 </a>
                 <a href="/" class="logo logo-light">
                     <span class="logo-sm">
-                        <img src="/images/clients-2.png" alt="" height="45">
+                        <img src="/images/logo_sidara.png" alt="" height="45">
                     </span>
                     <span class="logo-lg">
-                        <img src="/images/clients-2.png" alt="" height="45"> <span class="fs-5 text fw-semibold ms-2 pt-4 text-success"></span>
+                        <img src="/images/logo_sidara.png" alt="" height="45"> <span class="fs-5 text fw-semibold ms-2 pt-4 text-success"></span>
                     </span>
                 </a>
             </div>
