@@ -21,7 +21,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         // ProgressUnduhanRaporSeeder
-        $this->call(ProgressUnduhanRaporSeeder::class);
-        $this->call(DetailUserAktifSeeder::class);
+        // $this->call(ProgressUnduhanRaporSeeder::class);
+        // $this->call(DetailUserAktifSeeder::class);
     }
 }

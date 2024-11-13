@@ -6,11 +6,11 @@
         <div class="row">
             <div class="col-12">
                 <div class="page-title-box mb-0 d-sm-flex align-items-center justify-content-between">
-                    <h2 class="mb-sm-0 m-0 font-size-18 page-title">Visitor</h2>
+                    <h2 class="mb-sm-0 m-0 font-size-18 page-title">Permissions</h2>
                     <div class="page-title-right">
                         <ol class="breadcrumb m-0">
                             <li class="breadcrumb-item"><a href="javascript: void(0);">Home</a></li>
-                            <li class="breadcrumb-item">Visitor</li>
+                            <li class="breadcrumb-item">Permissions</li>
                             <li class="breadcrumb-item active">Lists</li>
                         </ol>
                     </div>
@@ -30,7 +30,7 @@
                                             <span id="dlength"></span>
                                         </div>
                                         <div class="col-12 col-sm-12">
-                                            <a href="/visitor/new" class="btn btn-md btn-primary btn-float" style="margin-top:;">Add New</a>
+                                            <a href="/permissions/new" class="btn btn-md btn-primary btn-float" style="margin-top:;">Add New</a>
                                         </div>
                                         <div class="col-12 col-sm-12 mt-4">
                                             <span id="dfilter"></span>
@@ -50,12 +50,8 @@
                                     <thead class="table-light">
                                         <tr>
                                             <th width="40">ID</th>
-                                            <th width="150">User ID</th>
-                                            <th width="200">Description</th>
-                                            <th width="350">Destination</th>
-                                            <th width="150">Duration</th>
-                                            <th width="150">Date Request</th>
-                                            <th width="90">Status</th>
+                                            <th width="300">Group</th>
+                                            <th width="1000">Permission</th>
                                             <th width="140">Action</th>
                                         </tr>
                                     </thead>
@@ -76,7 +72,9 @@ $(document).ready(function() {
     $('#table').DataTable({
         processing: true,
         serverSide: true,
-        ajax: "{{ route('visitor.data') }}",
+        lengthMenu: [25, 50, 100, 250],
+        pageLength: 50,
+        ajax: "{{ route('permissions.data') }}",
         columns: [
             {
                 data: null,
@@ -87,16 +85,36 @@ $(document).ready(function() {
                     return meta.row + meta.settings._iDisplayStart + 1;
                 }
             },
-            { data: 'fullname' },
-            { data: 'description' },
-            { data: 'destination' },
-            { data: 'duration' },
-            { data: 'date_request' },
-            { data: 'status', render: function(data) {
-                return data ? 'Active' : 'Inactive';
-            }},
+            { data: 'group_name' },
+            { data: 'name' },
             { data: 'action', orderable: false, searchable: false }
-        ]
+        ],
+        columnDefs: [
+            {
+                targets: [1],
+                visible: false,
+                searchable: false
+            },
+        ],
+        drawCallback: function (settings) {
+            var api = this.api();
+            var rows = api.rows({ page: 'current' }).nodes();
+            var last = null;
+
+            api.column(1, { page: 'current' }).data().each(function (group, i) {
+                var groupName = api.row(i).data().group_name;
+                var slug = api.row(i).data().group_slug;
+                var description = api.row(i).data().group_description;
+                if (last !== groupName) {
+                    $(rows).eq(i).before(
+                        '<tr class="group">'+
+                            '<td colspan="3">' + groupName + '</td>' +
+                        '</tr>'
+                    );
+                    last = groupName;
+                }
+            });
+        }
     });
 
     $("#dlength").append($("#table_length"));
@@ -138,7 +156,7 @@ $(document).ready(function() {
         }).then(function(result) {
             if (result?.value && (result?.value[0] != "")) {
                 $.ajax({
-                    url : '/visitor/delete/' + id,
+                    url : '/company/delete/' + id,
                     type : "get",
                     success: function(response){
                         Swal.fire(
@@ -166,7 +184,7 @@ $(document).ready(function() {
                 )
             }
         })
-        });
+    });
 });
 </script>
 @endsection
