@@ -13,7 +13,9 @@ return new class extends Migration
     {
         Schema::create('version', function (Blueprint $table) {
             $table->id();
-            $table->string('tables', 60)->unique();
+            $table->string('tables', 60)->nullable();
+            $table->string('url', 255)->nullable();
+            $table->tinyInteger('status'); // 1: webview; 2:native
             $table->integer('version')->default(0);
             $table->timestamps();
         });

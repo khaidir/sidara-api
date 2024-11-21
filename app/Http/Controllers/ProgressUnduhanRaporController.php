@@ -22,6 +22,15 @@ class ProgressUnduhanRaporController extends Controller
 
         Excel::import(new ProgressUnduhanRaporImport, $request->file('file'));
 
+        // update changes log
+        DB::table('version')
+            ->where('tables', 'progress_unduhan_rapor')
+            ->update([
+                'version' => DB::raw('version + 1'),
+                'updated_at' => now(),
+            ]);
+
         return redirect()->back()->with('success', 'Data imported successfully.');
     }
 }
+// progress_unduhan_rapor

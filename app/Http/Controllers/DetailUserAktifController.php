@@ -23,6 +23,14 @@ class DetailUserAktifController extends Controller
 
         Excel::import(new DetailUserAktifImport, $request->file('file'));
 
+        // update changes log
+        DB::table('version')
+            ->where('tables', 'detail_user_aktif')
+            ->update([
+                'version' => DB::raw('version + 1'),
+                'updated_at' => now(),
+            ]);
+
         return redirect()->back()->with('success', 'Data berhasil diimport.');
     }
 }
