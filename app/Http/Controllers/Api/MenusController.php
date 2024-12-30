@@ -17,7 +17,22 @@ class MenusController extends Controller
      */
     public function index(): JsonResponse
     {
-        $menus = Menu::all();
+        $menus = Menu::select(
+            'menus.id',
+            'menus.name',
+            'menus.label',
+            'menus.icon',
+            'menus.description',
+            'menus.link',
+            'menus.menu_id'
+        )->whereNull('menu_id') // Hanya parent menus
+            ->with('children')             // Muat relasi child menus
+            ->get();
+
+        if ($menus->isEmpty()) {
+            return response()->json(['message' => 'No menus found'], 404);
+        }
+
         return response()->json($menus);
     }
 
@@ -35,6 +50,7 @@ class MenusController extends Controller
             'icon' => 'nullable|string|max:255',
             'description' => 'nullable|string',
             'link' => 'required|string|max:255',
+            'menu_id' => 'nullable|string|max:255',
         ]);
 
         if ($validator->fails()) {
