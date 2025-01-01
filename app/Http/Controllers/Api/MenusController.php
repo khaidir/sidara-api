@@ -7,6 +7,7 @@ use App\Models\Menu;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Validator;
+use DB;
 
 class MenusController extends Controller
 {
@@ -21,7 +22,7 @@ class MenusController extends Controller
             'menus.id',
             'menus.name',
             'menus.label',
-            'menus.icon',
+            DB::raw("CONCAT('https://sidara.buayadarat.cloud/images/mobile/', menus.icon) AS icon"),
             'menus.description',
             'menus.link',
             'menus.menu_id'
